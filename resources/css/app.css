@@ -1,0 +1,8 @@
+.jumbotron {
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.list-group-item-success {
+    text-decoration: line-through;
+}
