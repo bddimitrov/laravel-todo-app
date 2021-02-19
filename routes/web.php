@@ -13,4 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/', 'todo');
+Route::get('/{any}', function () {
+    return view('todo');
+})->where('any', '.*');

@@ -8,9 +8,6 @@
         <link rel="stylesheet" href="{{  asset('css/app.css') }}"/>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/">Laravel Todo App</a>
-        </nav>
         <div id="app"></div>
     </body>
     <script src="{{ mix('js/app.js') }}"></script>

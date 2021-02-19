@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-8">
+            <div class="col-12 col-lg-8">
                 <div class="jumbotron">
                     <div class="d-flex">
                         <input class="form-control mr-1" placeholder="Enter task title" v-model="title" :class="{ 'is-invalid': !isValid }">
@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-8">
+            <div class="col-12 col-lg-8">
                 <div class="progress">
                     <div class="progress-bar bg-success" role="progressbar" :style="{ width: completedPercentage + '%' }" :aria-valuenow="completedTodos" aria-valuemin="0" :aria-valuemax="todos.length"></div>
                 </div>
