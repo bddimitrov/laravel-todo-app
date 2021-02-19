@@ -56,20 +56,26 @@ axios.defaults.baseURL = process.env.MIX_API_URL;
 
 const store = new Vuex.Store({
     state: {
-        user: null
+        user: null,
+        todos: [],
     },
 
     mutations: {
         setUserData (state, userData) {
             state.user = userData;
             localStorage.setItem('user', JSON.stringify(userData));
-            axios.defaults.headers.common.Authorization = `Bearer ${userData.token}`
+            axios.defaults.headers.common.Authorization = `Bearer ${userData.data.token}`
         },
 
         clearUserData () {
             localStorage.removeItem('user');
             location.reload()
+        },
+
+        setTodos (state, todos) {
+            state.todos = todos;
         }
+
     },
 
     actions: {
@@ -91,11 +97,35 @@ const store = new Vuex.Store({
 
         logout ({ commit }) {
             commit('clearUserData');
-        }
+        },
+
+        loadTodos({ commit }) {
+            return axios
+                .get('/todos')
+                .then(({ data }) => {
+                    commit('setTodos', data.data)
+                });
+        },
+
+        storeTodo({ commit }, data) {
+            return axios
+                .post('/todos/store', data);
+        },
+
+        toggleStatusTodo({ commit }, id) {
+            return axios
+                .put('/todos/toggle-status/' + id);
+        },
+
+        destroyTodo({ commit }, id) {
+            return axios
+                .delete('/todos/destroy/' + id);
+        },
     },
 
     getters : {
-        isLogged: state => !!state.user
+        isLogged: state => !!state.user,
+        todos: state => state.todos
     }
 });
 
