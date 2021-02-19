@@ -32,42 +32,28 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     export default {
         data: function () {
             return {
                 title: '',
                 isValid: true,
-                index: 5,
-                todos: [
-                    {
-                        id: 1,
-                        title: 'Vestibulum at eros 1',
-                        completed: false,
-                    },
-                    {
-                        id: 2,
-                        title: 'Vestibulum at eros 2',
-                        completed: false,
-                    },
-                    {
-                        id: 3,
-                        title: 'Vestibulum at eros 3',
-                        completed: false,
-                    },
-                    {
-                        id: 4,
-                        title: 'Vestibulum at eros 4',
-                        completed: true,
-                    },
-                ]
             }
         },
         mounted() {
-            //
+            this.$store.dispatch('loadTodos');
         },
         computed: {
+            ...mapGetters({
+                todos: 'todos',
+            }),
             completedTodos: function () {
-               return this.todos.filter((el) => el.completed === true).length;
+                if (this.todos.length) {
+                    return this.todos.filter((el) => el.completed === 1).length
+                }
+
+                return 0;
             },
             completedPercentage: function () {
                 return (this.completedTodos / this.todos.length) * 100;
@@ -80,23 +66,36 @@
                     return;
                 }
 
-                this.todos.unshift({
-                    id: this.index++,
-                    title: this.title,
-                    completed: false,
-                });
+                this.$store
+                    .dispatch('storeTodo', {
+                        title: this.title,
+                    })
+                    .then(() => {
+                        this.$store.dispatch('loadTodos');
+                    });
 
                 this.title = '';
                 this.isValid = true;
             },
             markCompleted: function (item) {
-               this.todos.sort(function (a,b) {
-                   return a.completed - b.completed;
-               });
+                this.$store
+                    .dispatch('toggleStatusTodo', item.id)
+                    .then(() => {
+                        this.$store
+                            .dispatch('loadTodos')
+                            .then(() => {
+                                this.todos.sort(function (a,b) {
+                                    return a.completed - b.completed;
+                                });
+                            });
+                    });
             },
             deleteTodo: function (item) {
-                const index =  this.todos.findIndex((el) => el.id === item.id);
-                this.todos.splice(index, 1);
+                this.$store
+                    .dispatch('destroyTodo', item.id)
+                    .then(() => {
+                        this.$store.dispatch('loadTodos');
+                    });
             }
         }
     }

@@ -4,11 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/**
- * Class UserResource
- * @package App\Http\Resources
- */
-class UserResource extends JsonResource
+class TodoResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,9 +15,9 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'email' => $this->email,
-            'token' => $this->createToken('laravel-todo-token')->plainTextToken,
+          'id' => $this->id,
+          'title' => $this->title,
+          'completed' => $this->completed,
         ];
     }
 }

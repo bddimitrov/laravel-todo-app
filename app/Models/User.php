@@ -39,4 +39,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function todos()
+    {
+        return $this->hasMany(Todo::class);
+    }
+
+    public function canEditTodo($id)
+    {
+        return $this->todos->firstWhere('id', $id) != null;
+    }
 }
