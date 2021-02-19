@@ -10,4 +10,9 @@ Commands to run the application after you pull the main repo:
 * npm run install
 * npm run dev
 
-After that you can update the .env file with right data for host, db credential etc.
+After that you can update the .env file with right data for host, db credentials etc.
+
+Default credentials:
+
+test@test.com
+password
